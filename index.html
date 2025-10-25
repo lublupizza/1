@@ -30,7 +30,6 @@
             overflow-x: hidden;
         }
 
-        /* Анимация паутины */
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-20px) rotate(5deg); }
@@ -44,6 +43,11 @@
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         header {
@@ -113,6 +117,50 @@
         .countdown {
             font-size: 16px;
             color: var(--accent);
+        }
+
+        .game-section {
+            background: linear-gradient(135deg, rgba(255,106,0,0.2) 0%, rgba(211,47,47,0.2) 100%);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 3px solid var(--gold);
+            text-align: center;
+            box-shadow: 0 0 40px rgba(255,215,0,0.4);
+        }
+
+        .game-title {
+            font-size: 28px;
+            color: var(--gold);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+        }
+
+        .game-description {
+            font-size: 16px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .play-btn {
+            padding: 16px 40px;
+            background: linear-gradient(135deg, var(--gold), var(--accent));
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            box-shadow: 0 0 30px rgba(255,215,0,0.6);
+            animation: bounce 1.5s ease-in-out infinite;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 50px rgba(255,215,0,0.8);
         }
 
         .combos-grid {
@@ -230,13 +278,6 @@
             box-shadow: 0 0 15px var(--danger);
         }
 
-        .margin-info {
-            font-size: 13px;
-            color: var(--success);
-            margin-top: 10px;
-            text-align: center;
-        }
-
         .order-btn {
             width: 100%;
             padding: 16px;
@@ -289,6 +330,12 @@
             position: relative;
             border: 3px solid var(--orange);
             box-shadow: 0 0 40px rgba(255,106,0,0.6);
+        }
+
+        .game-modal-content {
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-close {
@@ -365,6 +412,100 @@
             cursor: not-allowed;
         }
 
+        /* Игра */
+        .game-info {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .game-info-item {
+            color: var(--gold);
+        }
+
+        .game-area {
+            background: linear-gradient(135deg, rgba(0,0,0,0.5) 0%, rgba(51,0,0,0.5) 100%);
+            border: 3px solid var(--orange);
+            border-radius: 15px;
+            padding: 20px;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .pumpkin {
+            position: absolute;
+            font-size: 50px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.1s;
+        }
+
+        .pumpkin:hover {
+            transform: scale(1.2);
+        }
+
+        .pumpkin.clicked {
+            animation: pop 0.5s ease-out;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0.3); opacity: 0; }
+        }
+
+        .game-result {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--gold);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-group button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-play-again {
+            background: linear-gradient(135deg, var(--gold), var(--accent));
+            color: #000;
+            text-transform: uppercase;
+        }
+
+        .btn-play-again:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-close-game {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .btn-close-game:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
         footer {
             background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(51,0,0,0.8) 100%);
             text-align: center;
@@ -407,6 +548,14 @@
             .new-price {
                 font-size: 28px;
             }
+
+            .modal-content {
+                max-width: 90%;
+            }
+
+            .game-area {
+                height: 300px;
+            }
         }
     </style>
 </head>
@@ -426,6 +575,13 @@
             <div class="countdown">⏰ ОГРАНИЧЕННОЕ ВРЕМЯ - ТОЛЬКО В НОЧЬ УЖАСОВ!</div>
         </div>
 
+        <!-- МИНИ-ИГРА СЕКЦИЯ -->
+        <div class="game-section">
+            <div class="game-title">🎮 ИГРАЙ И ВЫИГРЫВАЙ! 🎮</div>
+            <div class="game-description">Поймай тыквы и выигрывай<br><strong>+5% ДОПОЛНИТЕЛЬНУЮ СКИДКУ</strong><br>на любой комбо!</div>
+            <button class="play-btn" onclick="startGame()">🎃 ИГРАТЬ СЕЙЧАС! 🎃</button>
+        </div>
+
         <div class="combos-grid">
             <!-- КОМБО 1: СТАНДАРТ -->
             <div class="combo-card">
@@ -442,7 +598,6 @@
                     <div class="old-price">⛔ Было: 491₽</div>
                     <div class="new-price">🎃 417₽</div>
                     <span class="discount-badge">-15% СКИДКА!</span>
-                    <div class="margin-info">✅ Маржа: 72% | Твоя прибыль: 302₽</div>
                 </div>
                 <button class="order-btn" onclick="showOrderForm('СТАНДАРТ', 417)">🛒 ЗАКАЗАТЬ</button>
             </div>
@@ -462,7 +617,6 @@
                     <div class="old-price">⛔ Было: 1985₽</div>
                     <div class="new-price">🎃 1883₽</div>
                     <span class="discount-badge">-5% СКИДКА!</span>
-                    <div class="margin-info">✅ Маржа: 71% | Твоя прибыль: 1338₽</div>
                 </div>
                 <button class="order-btn" onclick="showOrderForm('ПРЕМИУМ СЕТ', 1883)">🛒 ЗАКАЗАТЬ</button>
             </div>
@@ -483,13 +637,36 @@
                     <div class="old-price">⛔ Было: 1503₽</div>
                     <div class="new-price">🎃 1187₽</div>
                     <span class="discount-badge">-21% СКИДКА!</span>
-                    <div class="margin-info">✅ Маржа: 75% | Твоя прибыль: 889₽</div>
                 </div>
                 <button class="order-btn" onclick="showOrderForm('ВЕЧЕРИНКА', 1187)">🛒 ЗАКАЗАТЬ</button>
             </div>
         </div>
     </div>
 
+    <!-- МОДАЛЬНОЕ ОКНО ИГРЫ -->
+    <div class="modal" id="gameModal">
+        <div class="modal-content game-modal-content">
+            <span class="modal-close" onclick="closeGame()">&times;</span>
+            <div class="modal-title">🎃 ПОЙМАЙ ТЫКВЫ! 👻</div>
+
+            <div class="game-info">
+                <div class="game-info-item">⏱️ Время: <span id="gameTime">30</span>с</div>
+                <div class="game-info-item">🎯 Поймано: <span id="gameScore">0</span>/3</div>
+                <div class="game-info-item">🏆 Бонус: <span id="gameBonus">+0%</span></div>
+            </div>
+
+            <div class="game-area" id="gameArea"></div>
+
+            <div class="game-result" id="gameResult">Кликай по тыквам! 🎃</div>
+
+            <div class="btn-group">
+                <button class="btn-play-again" id="playAgainBtn" onclick="startGame()" style="display:none;">ИГРАТЬ ЕЩЕ</button>
+                <button class="btn-close-game" onclick="closeGame()">ЗАКРЫТЬ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО ЗАКАЗА -->
     <div class="modal" id="orderModal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeOrderForm()">&times;</span>
@@ -531,7 +708,99 @@
 
         let currentCombo = null;
         let currentPrice = null;
+        let gameScore = 0;
+        let gameActive = false;
+        let gameTime = 30;
 
+        // ИГРА
+        function startGame() {
+            document.getElementById('gameModal').classList.add('show');
+            gameScore = 0;
+            gameTime = 30;
+            gameActive = true;
+
+            document.getElementById('gameScore').textContent = '0';
+            document.getElementById('gameTime').textContent = '30';
+            document.getElementById('gameBonus').textContent = '+0%';
+            document.getElementById('gameResult').textContent = 'Кликай по тыквам! 🎃';
+            document.getElementById('playAgainBtn').style.display = 'none';
+
+            spawnPumpkins();
+            countdownTimer();
+        }
+
+        function spawnPumpkins() {
+            const gameArea = document.getElementById('gameArea');
+            gameArea.innerHTML = '';
+
+            for (let i = 0; i < 8; i++) {
+                const pumpkin = document.createElement('div');
+                pumpkin.className = 'pumpkin';
+                pumpkin.textContent = '🎃';
+                pumpkin.style.left = Math.random() * 90 + '%';
+                pumpkin.style.top = Math.random() * 85 + '%';
+                pumpkin.onclick = (e) => {
+                    if (gameActive && !pumpkin.classList.contains('clicked')) {
+                        gameScore++;
+                        pumpkin.classList.add('clicked');
+                        document.getElementById('gameScore').textContent = gameScore;
+                        updateBonus();
+                        e.stopPropagation();
+                    }
+                };
+                gameArea.appendChild(pumpkin);
+            }
+        }
+
+        function countdownTimer() {
+            const timer = setInterval(() => {
+                gameTime--;
+                document.getElementById('gameTime').textContent = gameTime;
+
+                if (gameTime <= 0) {
+                    clearInterval(timer);
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function updateBonus() {
+            let bonus = 0;
+            if (gameScore >= 1) bonus = 3;
+            if (gameScore >= 2) bonus = 4;
+            if (gameScore >= 3) bonus = 5;
+            if (gameScore >= 5) bonus = 8;
+            if (gameScore >= 7) bonus = 10;
+
+            document.getElementById('gameBonus').textContent = '+' + bonus + '%';
+        }
+
+        function endGame() {
+            gameActive = false;
+
+            let resultText = '';
+            let bonus = 0;
+
+            if (gameScore >= 3) {
+                bonus = 5;
+                resultText = `🎉 ПОБЕДА! Ты поймал ${gameScore} тыкв!<br>Получил бонус <strong>+5% СКИДКУ!</strong>`;
+            } else if (gameScore >= 1) {
+                bonus = 3;
+                resultText = `Неплохо! ${gameScore} тыкв!<br>Получил <strong>+3% к скидке!</strong>`;
+            } else {
+                resultText = `Попробуй еще раз!<br>Поймай хотя бы 1 тыкву!`;
+            }
+
+            document.getElementById('gameResult').innerHTML = resultText;
+            document.getElementById('playAgainBtn').style.display = 'block';
+        }
+
+        function closeGame() {
+            gameActive = false;
+            document.getElementById('gameModal').classList.remove('show');
+        }
+
+        // ЗАКАЗ
         function showOrderForm(comboName, price) {
             currentCombo = comboName;
             currentPrice = price;
@@ -560,6 +829,8 @@
             btn.disabled = true;
             btn.textContent = '⏳ Отправляю...';
 
+            const bonus = gameScore >= 3 ? ' +5% БОНУС ИЗ ИГРЫ!' : '';
+
             const message = `
 🎃 НОВЫЙ ЗАКАЗ - НОЧЬ УЖАСОВ! 👻
 
@@ -568,7 +839,7 @@
 📍 Адрес: ${address}
 
 🛒 КОМБО: ${currentCombo}
-💰 Сумма: ${currentPrice}₽
+💰 Сумма: ${currentPrice}₽${bonus}
 
 🎉 Спасибо за заказ!
             `;
@@ -609,8 +880,12 @@
         }
 
         window.onclick = function(event) {
-            const modal = document.getElementById('orderModal');
-            if (event.target === modal) {
+            const gameModal = document.getElementById('gameModal');
+            const orderModal = document.getElementById('orderModal');
+            if (event.target === gameModal) {
+                closeGame();
+            }
+            if (event.target === orderModal) {
                 closeOrderForm();
             }
         };
